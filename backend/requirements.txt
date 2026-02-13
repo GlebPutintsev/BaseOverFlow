@@ -1,0 +1,28 @@
+# FastAPI и веб
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+python-multipart>=0.0.9
+
+# База данных
+sqlalchemy>=2.0.35
+aiosqlite>=0.20.0
+greenlet>=3.0.0
+
+# Валидация и сериализация
+pydantic[email]>=2.10.0
+pydantic-settings>=2.6.0
+
+# Утилиты
+python-slugify>=8.0.4
+python-dateutil>=2.9.0
+
+# Векторный поиск
+qdrant-client>=1.7.0
+sentence-transformers>=2.2.2
+
+rapidfuzz>=3.6.0
+
+# Auth
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+bcrypt>=4.0.0
