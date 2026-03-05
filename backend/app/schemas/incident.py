@@ -20,6 +20,8 @@ class IncidentBase(BaseModel):
     author: Optional[str] = Field(None, max_length=100)
     incident_date: Optional[datetime] = None
     is_pinned: bool = False
+    image_url: Optional[str] = None
+    image_position: Optional[str] = "50 50"
 
 
 class IncidentCreate(IncidentBase):
@@ -44,6 +46,8 @@ class IncidentUpdate(BaseModel):
     service_id: Optional[int] = None
     tag_ids: Optional[list[int]] = None
     is_pinned: Optional[bool] = None
+    image_url: Optional[str] = None
+    image_position: Optional[str] = None
 
 
 class IncidentResponse(IncidentBase):
@@ -77,6 +81,8 @@ class IncidentList(BaseModel):
     score: int = 0
     publish_status: PublishStatus = PublishStatus.PUBLISHED
     is_pinned: bool
+    image_url: Optional[str] = None
+    image_position: Optional[str] = None
     service_id: int
     created_at: datetime
     tags: list[TagResponse] = []

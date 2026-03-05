@@ -3,7 +3,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 
-from app.api.routes import services, incidents, guides, tags, search, auth, votes, moderation, notifications, comments
+from app.api.routes import services, incidents, guides, tags, search, auth, votes, moderation, notifications, comments, uploads
 from app.database import get_db
 from app.models import Incident, Guide, Service
 
@@ -19,6 +19,7 @@ api_router.include_router(votes.router, prefix="/votes", tags=["votes"])
 api_router.include_router(moderation.router, prefix="/moderation", tags=["moderation"])
 api_router.include_router(notifications.router, prefix="/notifications", tags=["notifications"])
 api_router.include_router(comments.router, tags=["comments"])
+api_router.include_router(uploads.router, prefix="/upload", tags=["uploads"])
 
 
 class StatsResponse(BaseModel):

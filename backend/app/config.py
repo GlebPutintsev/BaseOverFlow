@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     
     CORS_ORIGINS: List[str] = []
     
+    # Default admin
+    ADMIN_PASSWORD: str = "admin"
+    
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
@@ -34,3 +37,5 @@ settings = Settings()
 
 # Paths as module-level constants
 SEARCH_INDEX_DIR = BASE_DIR / "search_index"
+UPLOAD_DIR = BASE_DIR / "data" / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

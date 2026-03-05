@@ -197,3 +197,13 @@ class AuthService:
         
         await self.db.flush()
         return user
+
+    async def delete_user(self, user_id: int) -> bool:
+        """Delete a user by ID."""
+        user = await self.get_user_by_id(user_id)
+        if not user:
+            return False
+        
+        await self.db.delete(user)
+        await self.db.flush()
+        return True

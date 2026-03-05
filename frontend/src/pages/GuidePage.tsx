@@ -159,6 +159,26 @@ export function GuidePage() {
             )}
           </div>
 
+          {/* Image */}
+          {guide.image_url && (
+            <div
+              className="relative mb-4 rounded-xl overflow-hidden border border-border max-w-3xl"
+              style={{ height: '300px' }}
+            >
+              <img
+                src={guide.image_url}
+                alt={guide.title}
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: guide.image_position
+                    ? `${guide.image_position.split(' ')[0]}% ${guide.image_position.split(' ')[1]}%`
+                    : '50% 50%',
+                }}
+              />
+            </div>
+          )}
+
           {/* Content */}
           <Card>
             <MarkdownContent content={guide.content} />

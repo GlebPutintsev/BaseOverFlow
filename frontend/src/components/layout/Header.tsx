@@ -195,6 +195,15 @@ export function Header() {
                       📋 Модерация
                     </Link>
                   )}
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin/users"
+                      className="block px-3 py-2 rounded-lg text-sm hover:bg-bg-tertiary"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      👥 Администрирование
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-bg-tertiary"

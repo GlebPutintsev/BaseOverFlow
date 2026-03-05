@@ -11,6 +11,7 @@ import { GuideFormPage } from './pages/GuideFormPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ModerationPage } from './pages/ModerationPage'
+import { AdminUsersPage } from './pages/AdminUsersPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/new/guide" element={<GuideFormPage />} />
         <Route path="/edit/guide/:slug" element={<GuideFormPage />} />
         <Route path="/moderation" element={<ModerationPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
         <Route path="/user/:username" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

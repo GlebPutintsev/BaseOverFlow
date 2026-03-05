@@ -87,6 +87,8 @@ export interface Incident {
   score: number
   publish_status: PublishStatus
   is_pinned: boolean
+  image_url: string | null
+  image_position: string | null
   service_id: number
   created_at: string
   updated_at: string
@@ -108,6 +110,8 @@ export interface IncidentList {
   score: number
   publish_status: PublishStatus
   is_pinned: boolean
+  image_url: string | null
+  image_position: string | null
   service_id: number
   created_at: string
   tags: Tag[]
@@ -127,6 +131,8 @@ export interface IncidentCreate {
   author?: string
   incident_date?: string
   is_pinned?: boolean
+  image_url?: string
+  image_position?: string
   service_id: number
   tag_ids?: number[]
 }
@@ -146,6 +152,8 @@ export interface IncidentUpdate {
   service_id?: number
   tag_ids?: number[]
   is_pinned?: boolean
+  image_url?: string
+  image_position?: string
 }
 
 // Guide
@@ -164,6 +172,8 @@ export interface Guide {
   score: number
   publish_status: PublishStatus
   is_pinned: boolean
+  image_url: string | null
+  image_position: string | null
   service_id: number
   created_at: string
   updated_at: string
@@ -184,6 +194,8 @@ export interface GuideList {
   score: number
   publish_status: PublishStatus
   is_pinned: boolean
+  image_url: string | null
+  image_position: string | null
   service_id: number
   created_at: string
   tags: Tag[]
@@ -197,6 +209,8 @@ export interface GuideCreate {
   guide_type?: GuideType
   author?: string
   is_pinned?: boolean
+  image_url?: string
+  image_position?: string
   service_id: number
   tag_ids?: number[]
 }
@@ -208,6 +222,8 @@ export interface GuideUpdate {
   guide_type?: GuideType
   author?: string
   is_pinned?: boolean
+  image_url?: string
+  image_position?: string
   service_id?: number
   tag_ids?: number[]
 }
@@ -265,6 +281,14 @@ export interface UserUpdate {
   bio?: string
   position?: string
   skills?: string
+}
+
+export interface UserCreateByAdmin {
+  email: string
+  username: string
+  password: string
+  display_name?: string
+  role: UserRole
 }
 
 // Search

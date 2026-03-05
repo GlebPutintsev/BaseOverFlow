@@ -24,13 +24,14 @@ from app.config import BASE_DIR
 # Инициализация модели (загружается только один раз)
 _model = None
 
+MODEL_NAME = 'intfloat/multilingual-e5-large'
+
 def get_model() -> SentenceTransformer:
-    """Получить или создать embedding модель (singleton)."""
+    """Получить или создать embedding модель (singleton). Только из локального кеша."""
     global _model
     if _model is None:
-        print("🔄 Loading embedding model (first time only)...")
-        # Используем высококачественную multilingual E5 модель для лучшего семантического поиска
-        _model = SentenceTransformer('intfloat/multilingual-e5-large')
+        print("🔄 Loading embedding model from cache...")
+        _model = SentenceTransformer(MODEL_NAME, local_files_only=True)
         print("✅ Embedding model loaded (multilingual-e5-large)!")
     return _model
 

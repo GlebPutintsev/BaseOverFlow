@@ -157,6 +157,26 @@ export function IncidentPage() {
             )}
           </div>
 
+          {/* Image */}
+          {incident.image_url && (
+            <div
+              className="relative mb-4 rounded-xl overflow-hidden border border-border max-w-3xl"
+              style={{ height: '300px' }}
+            >
+              <img
+                src={incident.image_url}
+                alt={incident.title}
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: incident.image_position
+                    ? `${incident.image_position.split(' ')[0]}% ${incident.image_position.split(' ')[1]}%`
+                    : '50% 50%',
+                }}
+              />
+            </div>
+          )}
+
           {/* Description */}
           <Card className="mb-4">
             <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">

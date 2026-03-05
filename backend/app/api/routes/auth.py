@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.services.auth_service import AuthService
-from app.schemas.auth import UserRegister, UserLogin, TokenResponse, UserResponse, UserRoleUpdate, UserUpdate, UserPublicProfile
+from app.schemas.auth import UserRegister, UserLogin, TokenResponse, UserResponse, UserRoleUpdate, UserUpdate, UserPublicProfile, UserCreateByAdmin
 from app.models.user import User, UserRole
 
 router = APIRouter()
@@ -242,3 +242,47 @@ async def unblock_user(
     
     await auth_service.set_user_active(user_id, True)
     return {"message": f"User {user.username} has been unblocked"}
+
+
+@router.post("/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def admin_create_user(
+    data: UserCreateByAdmin,
+    admin: User = Depends(get_admin_user),
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    """Создать пользователя (только для администратора)."""
+    try:
+        user = await auth_service.create_user(
+            email=data.email,
+            username=data.username,
+            password=data.password,
+            display_name=data.display_name,
+            role=data.role,
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+    return user
+
+
+@router.delete("/users/{user_id}")
+async def delete_user(
+    user_id: int,
+    admin: User = Depends(get_admin_user),
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    """Удалить пользователя (только для администратора). Нельзя удалить самого себя."""
+    if user_id == admin.id:
+        raise HTTPException(status_code=400, detail="Cannot delete yourself")
+    
+    user = await auth_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.role == UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Cannot delete an admin")
+    
+    await auth_service.delete_user(user_id)
+    return {"message": f"User {user.username} has been deleted"}

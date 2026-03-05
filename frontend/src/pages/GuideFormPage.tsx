@@ -7,8 +7,10 @@ import { useServicesFlatWithDepth } from '../hooks/useServices'
 import { useTags } from '../hooks/useTags'
 import { useAuthStore } from '../store/authStore'
 import { guidesApi } from '../api/guides'
+import { uploadsApi } from '../api/uploads'
 import { tagsApi } from '../api/tags'
 import { Card } from '../components/ui/Card'
+import { ImagePositioner } from '../components/ImagePositioner'
 import type { GuideCreate, GuideType } from '../types'
 
 interface FormData {
@@ -62,6 +64,31 @@ export function GuideFormPage() {
 
   const selectedTags = watch('tag_ids') || []
 
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [imagePosition, setImagePosition] = useState('50 50')
+  const [imageUploading, setImageUploading] = useState(false)
+  const [imageError, setImageError] = useState<string | null>(null)
+
+  const handleImageSelect = async (file: File) => {
+    setImageUploading(true)
+    setImageError(null)
+    try {
+      const url = await uploadsApi.uploadImage(file)
+      setImageUrl(url)
+    } catch (err) {
+      console.error('Failed to upload image:', err)
+      setImageError('Не удалось загрузить изображение. Попробуйте ещё раз.')
+    } finally {
+      setImageUploading(false)
+    }
+  }
+
+  const handleImageRemove = () => {
+    setImageUrl(null)
+    setImagePosition('50 50')
+    setImageError(null)
+  }
+
   useEffect(() => {
     if (guide && isEditing) {
       reset({
@@ -73,6 +100,8 @@ export function GuideFormPage() {
         tag_ids: guide.tags.map((t) => String(t.id)),
         is_pinned: guide.is_pinned,
       })
+      setImageUrl(guide.image_url || null)
+      setImagePosition(guide.image_position || '50 50')
     }
   }, [guide, isEditing, reset])
 
@@ -101,6 +130,8 @@ export function GuideFormPage() {
       service_id: parseInt(data.service_id, 10),
       tag_ids: data.tag_ids.map((id) => parseInt(id, 10)),
       is_pinned: data.is_pinned,
+      image_url: imageUrl || undefined,
+      image_position: imagePosition,
     }
 
     if (isEditing) {
@@ -188,6 +219,21 @@ export function GuideFormPage() {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Preview image */}
+        <div>
+          <ImagePositioner
+            imageUrl={imageUrl}
+            position={imagePosition}
+            onPositionChange={setImagePosition}
+            onImageSelect={handleImageSelect}
+            onImageRemove={handleImageRemove}
+            uploading={imageUploading}
+          />
+          {imageError && (
+            <p className="text-red-500 text-sm mt-2">{imageError}</p>
+          )}
+        </div>
+
         {/* Basic info */}
         <Card>
           <h2 className="text-lg font-semibold mb-4">Основная информация</h2>

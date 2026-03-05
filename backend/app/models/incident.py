@@ -82,6 +82,9 @@ class Incident(Base):
     
     is_pinned: Mapped[bool] = mapped_column(default=False)
     
+    image_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    image_position: Mapped[Optional[str]] = mapped_column(String(20), nullable=True, default="50 50")
+    
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

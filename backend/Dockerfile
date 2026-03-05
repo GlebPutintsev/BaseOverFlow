@@ -20,6 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('intfloat/multilingual-e5-large')"
 
+# После скачивания модели — включаем офлайн-режим навсегда
+ENV TRANSFORMERS_OFFLINE=1 \
+    HF_HUB_OFFLINE=1
+
 COPY . .
 
 RUN find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true && \
@@ -28,7 +32,7 @@ RUN find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true && 
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /app/data/qdrant
+RUN mkdir -p /app/data/qdrant /app/data/uploads
 
 EXPOSE 8000
 

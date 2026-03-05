@@ -74,4 +74,13 @@ class UserRoleUpdate(BaseModel):
     role: UserRole
 
 
+class UserCreateByAdmin(BaseModel):
+    """Схема для создания пользователя администратором"""
+    email: EmailStr
+    username: str = Field(..., min_length=3, max_length=50, pattern=r'^[a-zA-Z0-9_]+$')
+    password: str = Field(..., min_length=6, max_length=100)
+    display_name: Optional[str] = Field(None, max_length=100)
+    role: UserRole = UserRole.USER
+
+
 TokenResponse.model_rebuild()

@@ -13,6 +13,8 @@ class GuideBase(BaseModel):
     guide_type: GuideType = GuideType.HOWTO
     author: Optional[str] = Field(None, max_length=100)
     is_pinned: bool = False
+    image_url: Optional[str] = None
+    image_position: Optional[str] = "50 50"
 
 
 class GuideCreate(GuideBase):
@@ -29,6 +31,8 @@ class GuideUpdate(BaseModel):
     guide_type: Optional[GuideType] = None
     author: Optional[str] = Field(None, max_length=100)
     is_pinned: Optional[bool] = None
+    image_url: Optional[str] = None
+    image_position: Optional[str] = None
     service_id: Optional[int] = None
     tag_ids: Optional[list[int]] = None
 
@@ -65,6 +69,8 @@ class GuideList(BaseModel):
     score: int = 0
     publish_status: PublishStatus = PublishStatus.PUBLISHED
     is_pinned: bool
+    image_url: Optional[str] = None
+    image_position: Optional[str] = None
     service_id: int
     created_at: datetime
     tags: list[TagResponse] = []
